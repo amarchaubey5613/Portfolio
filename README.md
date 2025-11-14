@@ -1,5 +1,7 @@
 # Portfolio
 
+[![CI](https://github.com/amarchaubey5613/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/amarchaubey5613/Portfolio/actions/workflows/ci.yml)
+
 This is Amar Chaubey's portfolio website built with Django.
 
 ## Quick Start (development)
