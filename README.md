@@ -58,3 +58,47 @@ Uploaded images are stored under `media/projects/`.
 
 - This project uses Django (5.2.8) and Pillow for image support.
 - For production deployment, configure `DEBUG=False`, set `ALLOWED_HOSTS`, and use a proper static/media serving setup.
+
+## Deploy to PythonAnywhere (quick guide)
+
+This project can be hosted on PythonAnywhere under the account name `amarportfolio` (or any account you create).
+
+Manual steps (recommended for first deploy):
+
+1. Create an account at https://www.pythonanywhere.com/ (free tier available).
+2. Create a new Web App on PythonAnywhere and select "Manual configuration" -> "Django".
+3. On your PythonAnywhere console, create a virtualenv and install dependencies:
+
+```bash
+python3 -m venv ~/venv
+source ~/venv/bin/activate
+pip install -r requirements.txt
+```
+
+4. Clone your GitHub repo into PythonAnywhere (or use the `Git` option):
+
+```bash
+git clone https://github.com/amarchaubey5613/Portfolio.git mysite
+cd mysite
+```
+
+5. Point your PythonAnywhere web app to the project's WSGI file (edit the "WSGI configuration file" path in the Web tab), ensure `STATIC_ROOT`/`MEDIA_ROOT` are configured, and run migrations:
+
+```bash
+python manage.py migrate
+```
+
+6. Reload the web app from the PythonAnywhere Web tab and visit the site at `https://amarportfolio.pythonanywhere.com/` (replace with your actual PythonAnywhere webapp domain).
+
+Automated deploy (optional):
+
+You can add a GitHub Actions workflow that triggers a reload of your PythonAnywhere web app whenever you push to `main`. To use it:
+
+- Create a PythonAnywhere API token: on PythonAnywhere go to your account -> "Account" -> "API token" and generate one.
+- In your GitHub repository, add repository Secrets:
+	- `PYTHONANYWHERE_API_TOKEN` — the token value
+	- `PYTHONANYWHERE_USERNAME` — your PythonAnywhere username (e.g. `amarportfolio`)
+	- `PYTHONANYWHERE_WEBAPP` — the webapp domain (e.g. `amarportfolio.pythonanywhere.com`)
+
+Then enable the provided GitHub Actions workflow `deploy-pythonanywhere.yml` (already added to this repo) which will call the PythonAnywhere API to reload the app after a push.
+
